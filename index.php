@@ -6,16 +6,41 @@ $animes = [
         'description' => '',
         'seasons' => 5,
         'tags' => ['Action', 'Shonen'],
-        'favorited' => true,
+        'note' => 10,
     ],
     [
         'name' => 'Naruto',
         'description' => '',
         'seasons' => 1000,
         'tags' => ['Action', 'Shonen'],
-        'favorited' => false,
+        'note' => 8,
     ],
 ];
+
+/**
+ * @param int $note la note de mon anime
+ * @return string un emoji en fonction de ma note
+ */
+function noteWithEmoji(int $note): string
+{
+    switch ($note) {
+        case $note == 10:
+            return "🔥";
+        case $note > 7:
+            return "🎉";
+        default:
+            return "💡";
+    }
+}
+
+//$narutosNote = $animes[1]['note']; // 8
+//
+//echo "<p>Ma note est de : $narutosNote</p>";
+//
+//var_dump($narutosNote);
+//
+//noteWithEmoji($narutosNote);
+//noteWithEmoji(8);
 
 ?>
 
@@ -31,16 +56,19 @@ $animes = [
         </tr>
         </thead>
         <tbody>
+        <?php foreach ($animes as $anime) {
+            // pour montrer la différence avec / sans la syntax alternative
+        }
+        ?>
         <?php foreach ($animes as $anime): ?>
             <tr>
                 <td><?php echo $anime['name'] ?></td>
                 <td><?php echo $anime['description'] ?></td>
                 <td><?php echo $anime['seasons'] ?></td>
                 <td><?php echo implode(',', $anime['tags']); ?></td>
-                <td><?php echo $anime['favorited'] ? "Oui" : "Non"; ?></td>
+                <td><?php echo noteWithEmoji($anime['note']); ?></td>
             </tr>
         <?php endforeach; ?>
         </tbody>
     </table>
-
 <?php endif; ?>
