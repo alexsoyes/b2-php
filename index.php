@@ -58,6 +58,27 @@ $animes = [
 // cette variable a une portée locale, elle n'a RIEN à voir avec la function getEmoji($note)
 $note = 10;
 
+/**
+ * Cette fonction retourne une chaine de caractère, elle n'affiche RIEN
+ * @param int $note
+ * @return string
+ */
+function noteAnime(int $note): string {
+    if ($note == 10) {
+        return "super";
+    }
+
+    return "ok";
+}
+
+$note = noteAnime(10);
+
+// il faut utiliser "echo" pour afficher quelque chose dans la page.
+echo $note;
+
+noteAnime(10);
+
+
 function getEmoji(int $note): string
 {
     echo "Ma note est de : $note";
@@ -104,8 +125,7 @@ echo getEmoji(10);
                 <td><?php echo $anime['description']; ?></td>
                 <td><?php echo $anime['seasons']; ?></td>
                 <td><?php echo implode(", ", $anime['tags']); ?></td>
-                <td><?php $emoji = getEmoji($anime['note']);
-                    echo $emoji; ?></td>
+                <td><?php echo getEmoji($anime['note']);  ?></td>
             </tr>
         <?php endforeach; ?>
         </tbody>
