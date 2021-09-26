@@ -1,21 +1,12 @@
 <?php
 
-$animes = [
-    [
-        'name' => 'MHA',
-        'description' => '',
-        'seasons' => 5,
-        'tags' => ['Action', 'Shonen'],
-        'note' => 10,
-    ],
-    [
-        'name' => 'Naruto',
-        'description' => '',
-        'seasons' => 1000,
-        'tags' => ['Action', 'Shonen'],
-        'note' => 8,
-    ],
-];
+error_reporting(-1);
+ini_set('error_reporting', E_ALL);
+
+require "database.php";
+
+initDatabase();
+prefillData();
 
 /**
  * @param int $note la note de mon anime
