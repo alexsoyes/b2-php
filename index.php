@@ -24,18 +24,11 @@ function noteWithEmoji(int $note): string
     }
 }
 
-//$narutosNote = $animes[1]['note']; // 8
-//
-//echo "<p>Ma note est de : $narutosNote</p>";
-//
-//var_dump($narutosNote);
-//
-//noteWithEmoji($narutosNote);
-//noteWithEmoji(8);
+$animes = getData();
 
 ?>
 
-<?php if (!empty($animes)): ?>
+<?php if ($animes && !empty($animes)): ?>
     <table>
         <thead>
         <tr>
@@ -56,7 +49,7 @@ function noteWithEmoji(int $note): string
                 <td><?php echo $anime['name'] ?></td>
                 <td><?php echo $anime['description'] ?></td>
                 <td><?php echo $anime['seasons'] ?></td>
-                <td><?php echo implode(',', $anime['tags']); ?></td>
+                <td><?php echo implode(',', unserialize($anime['tags'])); ?></td>
                 <td><?php echo noteWithEmoji($anime['note']); ?></td>
             </tr>
         <?php endforeach; ?>

@@ -1,5 +1,7 @@
 <?php
 
+// https://bit.ly/3CU7Ban
+
 $database = 'epsi';
 $table = "anime";
 
@@ -14,6 +16,21 @@ function getDatabaseConnection(): PDO
     $dbh->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
     return $dbh;
+}
+
+function getData(): ?array {
+    $dbh = getDatabaseConnection();
+
+    global $database, $table;
+
+    $statement = $dbh->prepare("SELECT * FROM $database.$table");
+    $executed = $statement->execute();
+
+    if ($executed) {
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    return null;
 }
 
 function initDatabase(): bool
