@@ -9,32 +9,12 @@
     <link rel="stylesheet" href="https://unpkg.com/mvp.css">
 </head>
 
-<body>
 <?php
-$animes = [
-    [ // $anime
-        'name' => 'MHA',
-        'description' => 'Un anime cool.',
-        'seasons' => 5,
-        'tags' => ['Action', 'Shonen'],
-        'note' => 3,
-    ],
-    [
-        'name' => 'Naruto',
-        'description' => 'Un anime cool (mais long)',
-        'seasons' => 1000,
-        'tags' => ['Action', 'Shonen'],
-        'note' => 7,
-    ],
-    [
-        'name' => 'Haikyuu',
-        'description' => 'Volley-ball !',
-        'seasons' => 4,
-        'tags' => ['Sport'],
-        'note' => 9,
-    ],
-];
+require "database.php";
+prefillDatabase();
 ?>
+
+<body>
 
 <?php
 
@@ -78,7 +58,6 @@ echo $note;
 
 noteAnime(10);
 
-
 function getEmoji(int $note): string
 {
     echo "Ma note est de : $note";
@@ -99,7 +78,6 @@ function getEmoji(int $note): string
     }
 }
 
-echo getEmoji($note);
 echo getEmoji(-8);
 echo getEmoji(0);
 echo getEmoji(5);
