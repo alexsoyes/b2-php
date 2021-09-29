@@ -11,7 +11,13 @@
 
 <?php
 require "database.php";
-prefillDatabase();
+
+$animes = getData();
+
+if (empty($animes)) {
+    prefillDatabase();
+}
+
 ?>
 
 <body>
@@ -60,7 +66,7 @@ noteAnime(10);
 
 function getEmoji(int $note): string
 {
-    echo "Ma note est de : $note";
+    echo "<p>Ma note est de : $note";
 
     if ($note > 10 || $note < 0) {
         return "Problème";
@@ -76,6 +82,7 @@ function getEmoji(int $note): string
         default:
             return "💡";
     }
+    echo "</p>";
 }
 
 echo getEmoji(-8);

@@ -5,7 +5,7 @@ $table = "anime";
 
 function getDatabaseConnection(): PDO
 {
-    $dsn = 'mysql:host=mysql';
+    $dsn = 'mysql:host=0.0.0.0';
     $user = 'root';
     $password = 'root';
 
@@ -15,6 +15,22 @@ function getDatabaseConnection(): PDO
 
     return $dbh;
 }
+
+function getData(): ?array {
+    $dbh = getDatabaseConnection();
+
+    global $database, $table;
+
+    $statement = $dbh->prepare("SELECT * FROM $database.$table");
+    $executed = $statement->execute();
+
+    if ($executed) {
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    return null;
+}
+
 function prefillDatabase(): void {
 
     $animes = [
