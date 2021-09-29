@@ -3,6 +3,35 @@
 $database = "epsi";
 $table = "anime";
 
+class DB {
+
+    const HOST = '';
+
+    public function getDb()
+    {
+        $pdo = new PDO('mysql:host=self::HOST');
+    }
+}
+
+
+function initDatabase(): void {
+    $dbh = getDatabaseConnection();
+
+    global $database, $table;
+
+    $dbh->exec("DROP DATABASE IF EXISTS $database;");
+    $dbh->exec("CREATE DATABASE $database;");
+    $dbh->exec("CREATE TABLE `$database`.`$table` (
+      `id` INT NOT NULL AUTO_INCREMENT,
+      `name` VARCHAR(45) NOT NULL,
+      `description` VARCHAR(45) NOT NULL,
+      `note` INT NOT NULL,
+      `seasons` INT NOT NULL,
+      `tags` TEXT NOT NULL,
+      PRIMARY KEY (`id`));
+    ");
+}
+
 function getDatabaseConnection(): PDO
 {
     $dsn = 'mysql:host=0.0.0.0';
@@ -14,6 +43,16 @@ function getDatabaseConnection(): PDO
     $dbh->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
     return $dbh;
+}
+
+function deleteByID(int $id): bool {
+    $dbh = getDatabaseConnection();
+
+    global $database, $table;
+
+    $statement = $dbh->prepare("DELETE FROM $database.$table WHERE id=$id LIMIT 1");
+
+    return $statement->execute();
 }
 
 function getData(): ?array {
@@ -81,13 +120,22 @@ function insert($data): bool
         ";
 
         $stmt = $dbh->prepare($sql);
+        var_dump($stmt->errorInfo());
+
         $stmt->bindValue(':name', $data['name'], PDO::PARAM_STR);
         $stmt->bindValue(':description', $data['description'], PDO::PARAM_STR);
         $stmt->bindValue(':seasons', $data['seasons'], PDO::PARAM_INT);
         $stmt->bindValue(':note', $data['note'], PDO::PARAM_INT);
         $serializedTags = serialize($data['tags']);
         $stmt->bindParam(':tags', $serializedTags, PDO::PARAM_STR);
-        return $stmt->execute();
+
+        $isInserted = $stmt->execute();
+
+        if ($isInserted === false) {
+            var_dump($stmt->errorInfo());
+        }
+
+        return $isInserted;
     } catch (Exception $e) {
         echo "<pre><code>";
         var_dump($e);

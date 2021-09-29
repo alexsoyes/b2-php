@@ -12,13 +12,42 @@
 <?php
 require "database.php";
 
+/**
+ * J'initialise la base de données si on clique sur le bouton.
+ */
+if (array_key_exists('init', $_POST)) {
+    initDatabase();
+    header('Location: /'); // obligé car on a posté un form via $_POST, ainsi, on évite qu'il soit renvoyé à nouveau
+}
+
+if (array_key_exists('id', $_POST)) {
+    $id = $_POST['id'];
+
+    if (deleteByID($id)) {
+        echo "Id $id supprimé !";
+//        header('Location: /');
+    } else {
+        echo "Erreur de suppression";
+    }
+}
+
+/**
+ * Je remplis des données par défaut si ma base est vide.
+ */
 $animes = getData();
 
 if (empty($animes)) {
     prefillDatabase();
+    $animes = getData();
 }
 
 ?>
+
+
+<form action="" method="post">
+    <input type="hidden" name="init">
+    <input type="submit" value="Initialiser">
+</form>
 
 <body>
 
@@ -49,7 +78,8 @@ $note = 10;
  * @param int $note
  * @return string
  */
-function noteAnime(int $note): string {
+function noteAnime(int $note): string
+{
     if ($note == 10) {
         return "super";
     }
@@ -101,6 +131,7 @@ echo getEmoji(10);
             <th>Nb saisons</th>
             <th>Tags</th>
             <th>Fav</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -110,7 +141,13 @@ echo getEmoji(10);
                 <td><?php echo $anime['description']; ?></td>
                 <td><?php echo $anime['seasons']; ?></td>
                 <td><?php echo implode(", ", $anime['tags']); ?></td>
-                <td><?php echo getEmoji($anime['note']);  ?></td>
+                <td><?php echo getEmoji($anime['note']); ?></td>
+                <td>
+                    <form action="" method="post">
+                        <input type="hidden" name="id" value="<?php echo $anime['id']; ?>">
+                        <input type="submit" value="Supprimer">
+                    </form>
+                </td>
             </tr>
         <?php endforeach; ?>
         </tbody>
