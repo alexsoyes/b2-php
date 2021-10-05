@@ -1,19 +1,31 @@
 <?php
 
+require "./Interfaces/LikeableInterface.php";
+require "./Interfaces/ViewableInterface.php";
+
+require "./Model/Author.php";
 
 require "./Model/Providers/AbstractVideo.php";
 require "./Model/Providers/Netflix.php";
 require "./Model/Providers/YouTube.php";
-require "./Model/Anime.php";
-require "./Services/VideoViewerService.php";
+require "./Model/Providers/CrunchyRoll.php";
 
-$naruto = new Anime('naruto', 'Naruto', 'Ninja', 10, 10, ['Action']);
-$mha = new Anime('my-hero-academia', 'MHA', 'Héros', 10, 10, ['Action']);
+require "./Services/VideoService.php";
 
-$youtubeGrafikartAPIPlatform = new YouTube('Ap6l56bLQtQ', 'Grafikart - API Platform');
-$netflixSquidGame = new Netflix('81040344', 'Squid Game');
+$naruto = new CrunchyRoll('naruto', 'Naruto', 'Ninja', 10, ['Action']);
+$mha = new CrunchyRoll('my-hero-academia', 'MHA', 'Héros', 10, ['Action', 'Héro']);
 
-$viewer = new VideoViewerService();
+$apiPlatform = new YouTube('Ap6l56bLQtQ', 'Grafikart - API Platform', "Apprendre le framework", 10, ['Programmation', 'Web']);
+$squidGame = new Netflix('81040344', 'Squid Game', 'Une bonne série coréenne', 9, ['Violence', 'Suspense']);
+
+$squidGame->setIsLiked(true);
+
+$viewer = new VideoService();
+
+
+$bleachsAuthor = new Author('Tite Kubo');
+$narutosAuthor = new Author('Kishimoto');
+$narutosAuthor->setIsLiked(true);
 
 ?>
 
@@ -29,40 +41,52 @@ $viewer = new VideoViewerService();
 </head>
 <body>
 
-<h2>Tableau des animes</h2>
+<h2>Tableau des vidéos</h2>
 
 <table>
-    <?php foreach ([$naruto, $mha] as $anime): ?>
+    <thead>
+    <tr>
+        <th>Nom</th>
+        <th>Description</th>
+        <th>Note</th>
+        <th>Tags</th>
+        <th>Liens (généré avec provide())</th>
+        <th>Likée ?</th>
+    </tr>
+    </thead>
+    <?php foreach ([$naruto, $mha, $apiPlatform, $squidGame] as $video): ?>
         <tbody>
         <tr>
             <td>
-                <?php echo $anime->getName(); ?>
+                <?php echo $video->getName(); ?>
             </td>
             <td>
-                <?php echo $anime->getDescription(); ?>
+                <?php echo $video->getDescription(); ?>
             </td>
             <td>
-                <?php echo $anime->getNote(); ?></td>
-            <td>
-                <?php echo $anime->getSeasons(); ?>
+                <?php echo $video->getNote(); ?>
             </td>
             <td>
-                <?php echo implode(',', $anime->getTags()); ?>
+                <?php echo implode(', ', $video->getTags()); ?>
             </td>
             <td>
-                <?php echo $viewer->watch($anime); ?>
+                <?php echo $viewer->watch($video); ?>
+            </td>
+            <td>
+                <?php VideoService::displayLiked($video); ?>
             </td>
         </tr>
         </tbody>
     <?php endforeach; ?>
 </table>
 
-<h2>Partage des vidéos</h2>
+<h2>Auteurs</h2>
 
-<?php
-printf("<p>Pour regarder %s : %s</p>", $youtubeGrafikartAPIPlatform->getName(), $viewer->watch($youtubeGrafikartAPIPlatform));
-printf("<p>Pour regarder %s : %s</p>", $netflixSquidGame->getName(), $viewer->watch($netflixSquidGame));
-?>
-
+<ul>
+    <?php foreach ([$narutosAuthor, $bleachsAuthor] as $author): ?>
+        <li><?php echo $author->getName();
+            VideoService::displayLiked($author); ?></li>
+    <?php endforeach; ?>
+</ul>
 </body>
 </html>
