@@ -1,11 +1,7 @@
 <?php
 
-class Anime
+class Anime extends AbstractVideo
 {
-    /**
-     * @var string
-     */
-    private $name;
     /**
      * @var string
      */
@@ -24,33 +20,28 @@ class Anime
     private $tags;
 
     public function __construct(
+        string $id,
         string $name,
         string $description,
         int    $note,
         int    $seasons,
         array  $tags)
     {
-        $this->name = $name;
+        parent::__construct($id, $name);
         $this->description = $description;
         $this->note = $note;
         $this->seasons = $seasons;
         $this->tags = $tags;
     }
 
-    /**
-     * @return string
-     */
-    public function getName(): string
+    public function provide(): string
     {
-        return $this->name;
+        return "https://www.crunchyroll.com/fr/" . $this->id;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName(string $name): void
+    public function type(): string
     {
-        $this->name = $name;
+        return "anime";
     }
 
     /**
@@ -116,5 +107,4 @@ class Anime
     {
         $this->tags = $tags;
     }
-
 }
