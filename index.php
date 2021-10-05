@@ -2,10 +2,10 @@
 
 require "./Anime.php";
 
-$naruto = new Anime('Naruto', 'dezdzedezdze', 10, 27);
+$naruto = new Anime('Naruto', '', 10, 27);
+$mha = new Anime('My Hero Academia', '', 10, 5);
 
-
-$animes = [$naruto, $naruto, $naruto];
+$animes = [$naruto, $mha];
 
 ?>
 <table>
