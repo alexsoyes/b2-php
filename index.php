@@ -1,5 +1,23 @@
 <?php
 
+require "./Model/AbstractVideoProvider.php";
+require "./Model/Netflix.php";
+require "./Model/YouTube.php";
+
+$netflix = new Netflix('Squid game');
+$youtube = new YouTube('Grafikart');
+
+?>
+
+<ul>
+    <?php foreach ([$netflix, $youtube] as $video) : ?>
+        <li><?php echo $video->getName(); echo $video->provide(); ?> </li>
+    <?php endforeach; ?>
+</ul>
+
+<?php
+
+
 require "./Anime.php";
 
 $naruto = new Anime('Naruto', '', 10, 27);
