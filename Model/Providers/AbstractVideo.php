@@ -2,13 +2,14 @@
 
 abstract class AbstractVideo implements ViewableInterface, LikeableInterface
 {
+    // les enfants vont en hériter
     protected $id;
 
+    // restent dans le parent
     private $name;
     private $description;
     private $note;
     private $tags;
-
     private $isLiked = false;
 
     public function __construct(
@@ -25,6 +26,8 @@ abstract class AbstractVideo implements ViewableInterface, LikeableInterface
         $this->tags = $tags;
     }
 
+    // on oblige ces méthodes à se retrouver dans les enfants
+    // les enfants doivent réécrire le contenu de la fonction
     public abstract function provide(): string;
     public abstract function type(): string;
 

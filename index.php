@@ -5,7 +5,10 @@ require "./Interfaces/ViewableInterface.php";
 
 require "./Model/Author.php";
 
+// classe parente
 require "./Model/Providers/AbstractVideo.php";
+
+// classes enfants
 require "./Model/Providers/Netflix.php";
 require "./Model/Providers/YouTube.php";
 require "./Model/Providers/CrunchyRoll.php";
@@ -14,7 +17,6 @@ require "./Services/VideoService.php";
 
 $naruto = new CrunchyRoll('naruto', 'Naruto', 'Ninja', 10, ['Action']);
 $mha = new CrunchyRoll('my-hero-academia', 'MHA', 'Héros', 10, ['Action', 'Héro']);
-
 $apiPlatform = new YouTube('Ap6l56bLQtQ', 'Grafikart - API Platform', "Apprendre le framework", 10, ['Programmation', 'Web']);
 $squidGame = new Netflix('81040344', 'Squid Game', 'Une bonne série coréenne', 9, ['Violence', 'Suspense']);
 
