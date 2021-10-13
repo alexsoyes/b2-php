@@ -1,6 +1,6 @@
 <?php
 
-class Netflix extends AbstractVideo
+class Netflix extends AbstractVideo implements ViewableInterface, LikeableInterface
 {
     public function provide(): string
     {

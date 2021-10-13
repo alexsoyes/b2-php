@@ -1,6 +1,6 @@
 <?php
 
-class YouTube extends AbstractVideo
+class YouTube extends AbstractVideo implements ViewableInterface, LikeableInterface
 {
     public function provide(): string
     {

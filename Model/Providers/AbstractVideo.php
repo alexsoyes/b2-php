@@ -1,6 +1,6 @@
 <?php
 
-abstract class AbstractVideo implements ViewableInterface, LikeableInterface
+abstract class AbstractVideo
 {
     // les enfants vont en hériter
     protected $id;

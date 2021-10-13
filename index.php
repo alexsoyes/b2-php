@@ -9,6 +9,7 @@ require "./Model/Author.php";
 require "./Model/Providers/AbstractVideo.php";
 
 // classes enfants
+require "./Model/Providers/Wakanim.php";
 require "./Model/Providers/Netflix.php";
 require "./Model/Providers/YouTube.php";
 require "./Model/Providers/CrunchyRoll.php";
@@ -19,6 +20,7 @@ $naruto = new CrunchyRoll('naruto', 'Naruto', 'Ninja', 10, ['Action']);
 $mha = new CrunchyRoll('my-hero-academia', 'MHA', 'Héros', 10, ['Action', 'Héro']);
 $apiPlatform = new YouTube('Ap6l56bLQtQ', 'Grafikart - API Platform', "Apprendre le framework", 10, ['Programmation', 'Web']);
 $squidGame = new Netflix('81040344', 'Squid Game', 'Une bonne série coréenne', 9, ['Violence', 'Suspense']);
+$wakanim = new Wakanim();
 
 $squidGame->setIsLiked(true);
 
@@ -28,6 +30,16 @@ $viewer = new VideoService();
 $bleachsAuthor = new Author('Tite Kubo');
 $narutosAuthor = new Author('Kishimoto');
 $narutosAuthor->setIsLiked(true);
+
+var_dump($narutosAuthor); // a maintenant la propriété liked = true
+
+$videos = [
+    // $wakanim, // Uncaught TypeError: Argument 1 passed to VideoService::displayLiked() must implement interface LikeableInterface, instance of Wakanim given
+    $naruto,
+    $mha,
+    $apiPlatform,
+    $squidGame
+];
 
 ?>
 
@@ -48,17 +60,20 @@ $narutosAuthor->setIsLiked(true);
 <table>
     <thead>
     <tr>
+        <th>Likée ?</th>
         <th>Nom</th>
         <th>Description</th>
         <th>Note</th>
         <th>Tags</th>
         <th>Liens (généré avec provide())</th>
-        <th>Likée ?</th>
     </tr>
     </thead>
-    <?php foreach ([$naruto, $mha, $apiPlatform, $squidGame] as $video): ?>
+    <?php foreach ($videos as $video): ?>
         <tbody>
         <tr>
+            <td>
+                <?php VideoService::displayLiked($video); ?>
+            </td>
             <td>
                 <?php echo $video->getName(); ?>
             </td>
@@ -73,9 +88,6 @@ $narutosAuthor->setIsLiked(true);
             </td>
             <td>
                 <?php echo $viewer->watch($video); ?>
-            </td>
-            <td>
-                <?php VideoService::displayLiked($video); ?>
             </td>
         </tr>
         </tbody>

@@ -1,9 +1,8 @@
 <?php
 
-class Author implements LikeableInterface {
-
+class Author implements LikeableInterface
+{
     private $name;
-
     private $isLiked = false;
 
     public function __construct(string $name)
