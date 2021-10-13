@@ -1,5 +1,7 @@
 <?php
 
+require "./Traits/LikedTrait.php";
+
 require "./Interfaces/ViewableInterface.php";
 require "./Interfaces/LikeableInterface.php";
 
@@ -9,26 +11,9 @@ require "./Model/YouTube.php";
 require "./Model/Wakanim.php";
 require "./Model/Author.php";
 
-
 require "./Services/WatcherService.php";
 
-$squidGameNetflix = new Netflix('Squid game', '', 1);
-$grafikartYoutube = new YouTube('Grafikart', '', 8);
-$gravenYoutube = new YouTube('Graven', '', 8);
-$wakanim = new Wakanim();
-
-//echo WatcherService::getLink($youtube); // ok
-//echo WatcherService::getLink($netflix); // ok
-// echo WatcherService::getLink($wakanim); // Uncaught TypeError: Argument 1 passed to WatcherService::getLink() must be an instance of AbstractVideoProvider, instance of Wakanim given
-
-$authorAlex = new Author('Alex');
-$authorBen = new Author('Ben');
-$authorBen->setLiked(true);
-
-$grafikartYoutube->setLiked(true);
-$grafikartYoutube->setAuthors([$authorAlex, $authorBen]);
-
-$videos = [$squidGameNetflix, $grafikartYoutube, $gravenYoutube];
+$videos = WatcherService::getVideos();
 ?>
 
 <table>
@@ -58,42 +43,9 @@ $videos = [$squidGameNetflix, $grafikartYoutube, $gravenYoutube];
                         echo $author->getName() . " " . WatcherService::displayLike($author);
                     }
                 }
-                ?></td>
+                ?>
+            </td>
         </tr>
     <?php endforeach; ?>
     </tbody>
 </table>
-
-<?php
-
-exit();
-
-require "./Anime.php";
-
-$naruto = new Anime('Naruto', '', 10, 27);
-$mha = new Anime('My Hero Academia', '', 10, 5);
-
-$animes = [$naruto, $mha];
-
-?>
-<table>
-    <thead>
-    <tr>
-        <th>Nom</th>
-        <th>Desc</th>
-        <th>Note</th>
-        <th>Nb. saisons</th>
-    </tr>
-    </thead>
-    <tbody>
-    <?php foreach ($animes as $naruto): ?>
-        <tr>
-            <td><?php echo $naruto->getName(); ?></td>
-            <td><?php echo $naruto->getDesc(); ?></td>
-            <td><?php echo $naruto->getNote(); ?></td>
-            <td><?php echo $naruto->getSeason(); ?></td>
-        </tr>
-    <?php endforeach; ?>
-    </tbody>
-</table>
-

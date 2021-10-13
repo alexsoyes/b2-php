@@ -2,6 +2,8 @@
 
 abstract class AbstractVideoProvider
 {
+    use LikedTrait;
+
     /**
      * @var string
      */
@@ -14,12 +16,6 @@ abstract class AbstractVideoProvider
      * @var int
      */
     private $note;
-
-
-    /**
-     * @var bool
-     */
-    private $liked = false;
 
     /**
      * @var array | Author[]
@@ -41,7 +37,7 @@ abstract class AbstractVideoProvider
     /**
      * @return string
      */
-    public function getDescription(): string
+    final public function getDescription(): string
     {
         return $this->description;
     }
@@ -78,21 +74,6 @@ abstract class AbstractVideoProvider
         return $this->name;
     }
 
-    /**
-     * @return bool
-     */
-    public function isLiked(): bool
-    {
-        return $this->liked;
-    }
-
-    /**
-     * @param bool $liked
-     */
-    public function setLiked(bool $liked): void
-    {
-        $this->liked = $liked;
-    }
 
     /**
      * @return array|Author[]
