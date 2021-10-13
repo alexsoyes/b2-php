@@ -1,6 +1,7 @@
 <?php
 
 require "./Traits/LikedTrait.php";
+require "./Exceptions/BadNoteException.php";
 
 require "./Interfaces/ViewableInterface.php";
 require "./Interfaces/LikeableInterface.php";
@@ -13,7 +14,12 @@ require "./Model/Author.php";
 
 require "./Services/WatcherService.php";
 
-$videos = WatcherService::getVideos();
+try {
+    $videos = WatcherService::getVideos();
+} catch (BadNoteException $exception) {
+    $videos = [];
+    echo "<p>Un problème de note dans tes vidéos a été détecté, on bosse dessus !</p>";
+}
 ?>
 
 <table>

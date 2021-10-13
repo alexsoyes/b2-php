@@ -9,7 +9,7 @@ class WatcherService
     {
         $squidGameNetflix = new Netflix('Squid game', '', 1);
         $grafikartYoutube = new YouTube('Grafikart', '', 8);
-        $gravenYoutube = new YouTube('Graven', '', 8);
+        $gravenYoutube = new YouTube('Graven', '', -10);
 
         $authorAlex = new Author('Alex');
         $authorBen = new Author('Ben');
@@ -18,7 +18,16 @@ class WatcherService
         $grafikartYoutube->setLiked(true);
         $grafikartYoutube->setAuthors([$authorAlex, $authorBen]);
 
-        return [$grafikartYoutube, $gravenYoutube, $squidGameNetflix];
+        $videos = [$grafikartYoutube, $gravenYoutube, $squidGameNetflix];
+
+        /** @var AbstractVideoProvider $video */
+        foreach ($videos as $video) {
+            if ($video->getNote() < 0) {
+                throw new BadNoteException();
+            }
+        }
+
+        return $videos;
     }
 
     static function getLink(AbstractVideoProvider $videoProvider): string
