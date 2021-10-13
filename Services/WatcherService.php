@@ -8,6 +8,6 @@ class WatcherService
 
     static function displayLike(LikeableInterface $likeable): string
     {
-        return $likeable->isLiked() ? "❤️" : "";
+        return $likeable->isLiked() ? "❤️" : "x";
     }
 }

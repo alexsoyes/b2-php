@@ -12,9 +12,9 @@ require "./Model/Author.php";
 
 require "./Services/WatcherService.php";
 
-$netflix = new Netflix('Squid game', '', 1);
-$youtube = new YouTube('Grafikart', '', 8);
-$youtube2 = new YouTube('Graven', '', 8);
+$squidGameNetflix = new Netflix('Squid game', '', 1);
+$grafikartYoutube = new YouTube('Grafikart', '', 8);
+$gravenYoutube = new YouTube('Graven', '', 8);
 $wakanim = new Wakanim();
 
 //echo WatcherService::getLink($youtube); // ok
@@ -23,11 +23,12 @@ $wakanim = new Wakanim();
 
 $authorAlex = new Author('Alex');
 $authorBen = new Author('Ben');
+$authorBen->setLiked(true);
 
-$youtube->setLiked(true);
-$youtube->setAuthors([$authorAlex, $authorBen]);
+$grafikartYoutube->setLiked(true);
+$grafikartYoutube->setAuthors([$authorAlex, $authorBen]);
 
-$videos = [$netflix, $youtube, $youtube2];
+$videos = [$squidGameNetflix, $grafikartYoutube, $gravenYoutube];
 ?>
 
 <table>
@@ -54,7 +55,7 @@ $videos = [$netflix, $youtube, $youtube2];
             <td><?php
                 if (!empty($video->getAuthors())) {
                     foreach ($video->getAuthors() as $author) {
-                        echo $author->getName() . " ";
+                        echo $author->getName() . " " . WatcherService::displayLike($author);
                     }
                 }
                 ?></td>
