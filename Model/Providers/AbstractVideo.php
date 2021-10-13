@@ -2,6 +2,8 @@
 
 abstract class AbstractVideo
 {
+    use LikedTrait;
+
     // les enfants vont en hériter
     protected $id;
 
@@ -10,7 +12,6 @@ abstract class AbstractVideo
     private $description;
     private $note;
     private $tags;
-    private $isLiked = false;
 
     /** @var Author[] */
     private $authors = [];
@@ -35,25 +36,9 @@ abstract class AbstractVideo
     public abstract function type(): string;
 
     /**
-     * @return mixed
-     */
-    public function isLiked(): bool
-    {
-        return $this->isLiked;
-    }
-
-    /**
-     * @param mixed $isLiked
-     */
-    public function setIsLiked($isLiked): void
-    {
-        $this->isLiked = $isLiked;
-    }
-
-    /**
      * @return string
      */
-    public function getName(): string
+    final public function getName(): string
     {
         return $this->name;
     }

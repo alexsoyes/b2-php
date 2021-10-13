@@ -1,6 +1,6 @@
 <?php
 
-class Wakanim
+final class Wakanim
 {
 
 }

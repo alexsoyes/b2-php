@@ -3,6 +3,8 @@
 require "./Interfaces/LikeableInterface.php";
 require "./Interfaces/ViewableInterface.php";
 
+require "./Traits/LikedTrait.php";
+
 require "./Model/Author.php";
 
 // classe parente
@@ -16,35 +18,9 @@ require "./Model/Providers/CrunchyRoll.php";
 
 require "./Services/VideoService.php";
 
-$bleach = new CrunchyRoll('bleach', 'Bleach', '', 1000, ['Action']);
-$naruto = new CrunchyRoll('naruto', 'Naruto', 'Ninja', 10, ['Action']);
-$mha = new CrunchyRoll('my-hero-academia', 'MHA', 'Héros', 10, ['Action', 'Héro']);
-$apiPlatform = new YouTube('Ap6l56bLQtQ', 'Grafikart - API Platform', "Apprendre le framework", 10, ['Programmation', 'Web']);
-$squidGame = new Netflix('81040344', 'Squid Game', 'Une bonne série coréenne', 9, ['Violence', 'Suspense']);
-$wakanim = new Wakanim();
-
-$squidGame->setIsLiked(true);
 
 $viewer = new VideoService();
-
-$bleachsAuthor = new Author('Tite Kubo');
-$narutosAuthor = new Author('Kishimoto');
-$narutosAuthor->setIsLiked(true);
-
-$naruto->setAuthors([$narutosAuthor]);
-$bleach->setAuthors([$bleachsAuthor]);
-
-var_dump($narutosAuthor); // a maintenant la propriété liked = true
-
-$videos = [
-    // $wakanim, // Uncaught TypeError: Argument 1 passed to VideoService::displayLiked() must implement interface LikeableInterface, instance of Wakanim given
-    $naruto,
-    $bleach,
-    $mha,
-    $apiPlatform,
-    $squidGame
-];
-
+$videos = VideoService::getVideos();
 ?>
 
 <!doctype html>
@@ -109,14 +85,5 @@ $videos = [
         </tbody>
     <?php endforeach; ?>
 </table>
-
-<h2>Auteurs</h2>
-
-<ul>
-    <?php foreach ([$narutosAuthor, $bleachsAuthor] as $author): ?>
-        <li><?php echo $author->getName();
-            VideoService::displayLiked($author); ?></li>
-    <?php endforeach; ?>
-</ul>
 </body>
 </html>
