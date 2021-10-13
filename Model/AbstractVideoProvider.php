@@ -15,6 +15,17 @@ abstract class AbstractVideoProvider
      */
     private $note;
 
+
+    /**
+     * @var bool
+     */
+    private $liked = false;
+
+    /**
+     * @var array | Author[]
+     */
+    private $authors = [];
+
     public function __construct(
         string $name,
         string $description,
@@ -65,6 +76,38 @@ abstract class AbstractVideoProvider
     public function getName(): string
     {
         return $this->name;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLiked(): bool
+    {
+        return $this->liked;
+    }
+
+    /**
+     * @param bool $liked
+     */
+    public function setLiked(bool $liked): void
+    {
+        $this->liked = $liked;
+    }
+
+    /**
+     * @return array|Author[]
+     */
+    public function getAuthors(): array
+    {
+        return $this->authors;
+    }
+
+    /**
+     * @param array|Author[] $authors
+     */
+    public function setAuthors(array $authors): void
+    {
+        $this->authors = $authors;
     }
 }
 

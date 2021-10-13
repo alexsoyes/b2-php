@@ -1,21 +1,33 @@
 <?php
 
+require "./Interfaces/ViewableInterface.php";
+require "./Interfaces/LikeableInterface.php";
+
 require "./Model/AbstractVideoProvider.php";
 require "./Model/Netflix.php";
 require "./Model/YouTube.php";
 require "./Model/Wakanim.php";
+require "./Model/Author.php";
+
 
 require "./Services/WatcherService.php";
 
 $netflix = new Netflix('Squid game', '', 1);
 $youtube = new YouTube('Grafikart', '', 8);
+$youtube2 = new YouTube('Graven', '', 8);
 $wakanim = new Wakanim();
 
-echo WatcherService::getLink($youtube);
-echo WatcherService::getLink($netflix);
+//echo WatcherService::getLink($youtube); // ok
+//echo WatcherService::getLink($netflix); // ok
 // echo WatcherService::getLink($wakanim); // Uncaught TypeError: Argument 1 passed to WatcherService::getLink() must be an instance of AbstractVideoProvider, instance of Wakanim given
 
-$videos = [$netflix, $youtube, $wakanim];
+$authorAlex = new Author('Alex');
+$authorBen = new Author('Ben');
+
+$youtube->setLiked(true);
+$youtube->setAuthors([$authorAlex, $authorBen]);
+
+$videos = [$netflix, $youtube, $youtube2];
 ?>
 
 <table>
@@ -24,17 +36,28 @@ $videos = [$netflix, $youtube, $wakanim];
         <th>Nom</th>
         <th>Desc</th>
         <th>Note</th>
+        <th>Lien</th>
+        <th>Aimé</th>
+        <th>Auteurs</th>
     </tr>
     </thead>
     <tbody>
     <?php
-    /** @var AbstractVideoProvider $video */
+    /** @var AbstractVideoProvider | LikeableInterface $video */
     foreach ($videos as $video) : ?>
         <tr>
             <td><?php echo $video->getName(); ?></td>
             <td><?php echo $video->getDescription(); ?></td>
             <td><?php echo $video->getNote(); ?></td>
             <td><?php echo WatcherService::getLink($video); ?></td>
+            <td><?php echo WatcherService::displayLike($video); ?></td>
+            <td><?php
+                if (!empty($video->getAuthors())) {
+                    foreach ($video->getAuthors() as $author) {
+                        echo $author->getName() . " ";
+                    }
+                }
+                ?></td>
         </tr>
     <?php endforeach; ?>
     </tbody>
