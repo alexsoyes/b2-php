@@ -12,6 +12,9 @@ abstract class AbstractVideo
     private $tags;
     private $isLiked = false;
 
+    /** @var Author[] */
+    private $authors = [];
+
     public function __construct(
         string $id,
         string $name,
@@ -77,5 +80,21 @@ abstract class AbstractVideo
     public function getTags(): array
     {
         return $this->tags;
+    }
+
+    /**
+     * @return Author[]
+     */
+    public function getAuthors(): array
+    {
+        return $this->authors;
+    }
+
+    /**
+     * @param Author[] $authors
+     */
+    public function setAuthors(array $authors): void
+    {
+        $this->authors = $authors;
     }
 }

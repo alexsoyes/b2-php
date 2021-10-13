@@ -16,6 +16,7 @@ require "./Model/Providers/CrunchyRoll.php";
 
 require "./Services/VideoService.php";
 
+$bleach = new CrunchyRoll('bleach', 'Bleach', '', 1000, ['Action']);
 $naruto = new CrunchyRoll('naruto', 'Naruto', 'Ninja', 10, ['Action']);
 $mha = new CrunchyRoll('my-hero-academia', 'MHA', 'Héros', 10, ['Action', 'Héro']);
 $apiPlatform = new YouTube('Ap6l56bLQtQ', 'Grafikart - API Platform', "Apprendre le framework", 10, ['Programmation', 'Web']);
@@ -26,16 +27,19 @@ $squidGame->setIsLiked(true);
 
 $viewer = new VideoService();
 
-
 $bleachsAuthor = new Author('Tite Kubo');
 $narutosAuthor = new Author('Kishimoto');
 $narutosAuthor->setIsLiked(true);
+
+$naruto->setAuthors([$narutosAuthor]);
+$bleach->setAuthors([$bleachsAuthor]);
 
 var_dump($narutosAuthor); // a maintenant la propriété liked = true
 
 $videos = [
     // $wakanim, // Uncaught TypeError: Argument 1 passed to VideoService::displayLiked() must implement interface LikeableInterface, instance of Wakanim given
     $naruto,
+    $bleach,
     $mha,
     $apiPlatform,
     $squidGame
@@ -66,9 +70,12 @@ $videos = [
         <th>Note</th>
         <th>Tags</th>
         <th>Liens (généré avec provide())</th>
+        <th>Auteurs</th>
     </tr>
     </thead>
-    <?php foreach ($videos as $video): ?>
+    <?php
+    /** @var AbstractVideo $video */
+    foreach ($videos as $video): ?>
         <tbody>
         <tr>
             <td>
@@ -88,6 +95,15 @@ $videos = [
             </td>
             <td>
                 <?php echo $viewer->watch($video); ?>
+            </td>
+            <td>
+                <?php
+                if (!empty($video->getAuthors())) {
+                    foreach ($video->getAuthors() as $author) {
+                        echo $author->getName() . " " . VideoService::displayLiked($author);
+                    }
+                }
+                ?>
             </td>
         </tr>
         </tbody>
